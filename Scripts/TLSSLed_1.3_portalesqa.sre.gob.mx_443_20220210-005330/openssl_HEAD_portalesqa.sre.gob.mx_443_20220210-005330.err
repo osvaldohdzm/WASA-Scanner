@@ -1,7 +1,0 @@
-depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
-verify return:1
-depth=1 C = US, O = DigiCert Inc, CN = DigiCert TLS RSA SHA256 2020 CA1
-verify return:1
-depth=0 C = MX, L = Ciudad De Mexico, O = SECRETARIA DE RELACIONES EXTERIORES, CN = *.sre.gob.mx
-verify return:1
-read:errno=0

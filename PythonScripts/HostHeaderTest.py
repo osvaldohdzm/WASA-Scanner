@@ -3,6 +3,11 @@ import textwrap
 import requests
 import re
 
+red = "\033[31m"
+nul = "\033[0m"
+
+evil_string = "evil-site.com"
+
 def is_url(x):
     return bool(re.match(
         r"(https?|ftp)://" # protocol
@@ -18,11 +23,11 @@ args = vars(parser.parse_args())
 print(args)
 url = args['host']
 
-headers = {'Content-Type': 'application/json; charset=utf-8','Host': 'evil-site.com','User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',}
+headers = {'Content-Type': 'application/json; charset=utf-8','Host': evil_string,'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',}
 
 def print_roundtrip(response, *args, **kwargs):
     format_headers = lambda d: '\n'.join(f'{k}: {v}' for k, v in d.items())
-    print(textwrap.dedent('''
+    output = textwrap.dedent('''
         ---------------- request ----------------
         {req.method} {req.url}
         {reqhdrs}
@@ -38,9 +43,10 @@ def print_roundtrip(response, *args, **kwargs):
         res=response, 
         reqhdrs=format_headers(response.request.headers), 
         reshdrs=format_headers(response.headers), 
-    ))
+    )
+    print(output)
 
-requests.get(url,headers=headers,hooks={'response': print_roundtrip})
+requests.get(url,headers=headers,hooks={'response': print_roundtrip},allow_redirects=False)
 
 
 
